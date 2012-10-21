@@ -87,7 +87,7 @@ class Stringifier(object):
             self._read_dict(value)
 
     def _append_string(self, string):
-        self._append_token('"%s"' % string)
+        self._append_token('"%s"' % escape(string))
 
     def _append_number(self, number):
         self._append_token(str(number))

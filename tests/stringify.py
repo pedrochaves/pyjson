@@ -85,3 +85,7 @@ class TestStringify(object):
         assert_in('"this_is": null', json)
         assert_in('"dict": {', json)
 
+    def test_special_chars(self):
+        json = stringify(["a\nb\t"])
+
+        assert_equals(json, '["a\\nb\\t"]')

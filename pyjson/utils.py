@@ -12,3 +12,17 @@ def is_string(token):
 
 def is_dict(token):
     return type(token) == dict
+
+
+def escape(string):
+    to_escape = {
+        "\n": "\\n",
+        "\r": "\\r",
+        "\t": "\\t",
+        "\b": "\\b",
+    }
+
+    for search, replace in to_escape.items():
+        string = string.replace(search, replace)
+
+    return string
