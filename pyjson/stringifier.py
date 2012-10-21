@@ -65,9 +65,7 @@ class Stringifier(object):
         self._tokens.append(token)
 
     def _append_key(self, key_name):
-        self._append_token('"')
-        self._append_token(key_name)
-        self._append_token('": ')
+        self._append_token('"%s": ' % key_name)
 
     def _append_comma(self):
         self._append_token(", ")
@@ -89,9 +87,7 @@ class Stringifier(object):
             self._read_dict(value)
 
     def _append_string(self, string):
-        self._append_token('"')
-        self._append_token(string)
-        self._append_token('"')
+        self._append_token('"%s"' % string)
 
     def _append_number(self, number):
         self._append_token(str(number))
