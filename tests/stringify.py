@@ -1,9 +1,11 @@
+"""Tests for the stringify method of the lib"""
+
 from nose.tools import assert_equals, assert_in
 
 from pyjson import stringify
 
 
-class TestStringifier:
+class TestStringify(object):
 
     def test_just_an_empty_list(self):
         json = stringify([])
