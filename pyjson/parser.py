@@ -41,11 +41,9 @@ class Parser(object):
         char = self._str.peek()
         if char == "[":
             return self._parse_list()
-        elif char.isdigit():
+        elif char.isdigit() or char == "-":
             return self._parse_number()
         elif char in ("f", "t", "n"):
-            self._parsing_boolean = True
-
             return self._parse_booleans()
 
     def _parse_list(self):
@@ -63,7 +61,7 @@ class Parser(object):
         current = self._str.next().lower()
         is_float = False
         is_exponencial = False
-        modifiers = (".", "e")
+        modifiers = ("-", ".", "e")
         number = ""
 
         while current.isdigit() or current in modifiers:
@@ -77,6 +75,8 @@ class Parser(object):
         return float(number) if is_float or is_exponencial else int(number)
 
     def _parse_booleans(self):
+        self._parsing_boolean = True
+        
         token = self._str.next()
 
         has_to_return = {"f": "false", "t": "true", "n": "null"}[token]
