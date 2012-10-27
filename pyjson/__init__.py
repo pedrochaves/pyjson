@@ -6,3 +6,4 @@ A simple module for manipulating JSON objects and strings
 
 from stringifier import stringify
 from json_file import to_file
+from parser import parse
