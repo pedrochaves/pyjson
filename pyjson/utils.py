@@ -16,6 +16,7 @@ def is_dict(token):
 
 def escape(string):
     to_escape = {
+        '\"': '\\"',
         "\n": "\\n",
         "\r": "\\r",
         "\t": "\\t",

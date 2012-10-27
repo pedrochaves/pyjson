@@ -3,53 +3,55 @@
 
 from nose.tools import assert_equals, assert_in
 
-from pyjson import stringify
+import pyjson
 
 
 class TestStringify(object):
 
-    def test_just_an_empty_list(self):
-        json = stringify([])
+    def test_empty_list(self):
+        json = []
 
-        assert_equals(json, "[]")
+        assert_equals(pyjson.stringify(json), "[]")
 
     def test_number_list(self):
-        json = stringify([1, 2, 3, 2.5])
+        json = [1, 2, 3, 2.5, 10e1]
 
-        assert_equals(json, "[1, 2, 3, 2.5]")
+        assert_equals(pyjson.stringify(json),
+            "[1, 2, 3, 2.5, 100.0]")
 
     def test_simple_string_list(self):
-        json = stringify(["str1", "2", "yeah"])
+        json = ["str1", "2", "yeah"]
 
-        assert_equals(json, '["str1", "2", "yeah"]')
+        assert_equals(pyjson.stringify(json),
+            '["str1", "2", "yeah"]')
 
     def test_true_false_null(self):
-        json = stringify([True, False, None])
+        json = [True, False, None]
 
-        assert_equals(json, "[true, false, null]")
+        assert_equals(pyjson.stringify(json),
+            "[true, false, null]")
 
     def test_mixed_list(self):
-        json = stringify([None, "abc", 1])
+        json = [None, "abc", 1]
 
-        assert_equals(json, '[null, "abc", 1]')
+        assert_equals(pyjson.stringify(json), '[null, "abc", 1]')
 
     def test_list_within_list(self):
-        json = stringify([[1, 2, 3], [4, 5, 6]])
+        json = [[1, 2, 3], [4, 5, 6]]
 
-        assert_equals(json, '[[1, 2, 3], [4, 5, 6]]')
+        assert_equals(pyjson.stringify(json), '[[1, 2, 3], [4, 5, 6]]')
 
     def test_tuple_to_array(self):
-        json = stringify((1, 2, 3))
+        json = (1, 2, 3)
 
-        assert_equals(json, "[1, 2, 3]")
+        assert_equals(pyjson.stringify(json), "[1, 2, 3]")
 
-    def test_list_and_tuple(self):
-        json = stringify((1, [1, 2], ()))
+        json = (1, (1, 2), ())
 
-        assert_equals(json, "[1, [1, 2], []]")
+        assert_equals(pyjson.stringify(json), "[1, [1, 2], []]")
 
     def test_simple_dict(self):
-        json = stringify({
+        json = pyjson.stringify({
             "string": "value",
             "number": 1,
             "float": 2.5,
@@ -79,7 +81,7 @@ class TestStringify(object):
             }
         }
 
-        json = stringify(my_data)
+        json = pyjson.stringify(my_data)
 
         assert_in('"my_array": [[0, 0], [1, 2]]', json)
         assert_in('"is_something": true', json)
@@ -87,11 +89,17 @@ class TestStringify(object):
         assert_in('"dict": {', json)
 
     def test_special_chars(self):
-        json = stringify(["a\nb\t"])
+        json = ["a\nb\t"]
+        assert_equals(pyjson.stringify(json),
+            '["a\\nb\\t"]')
 
-        assert_equals(json, '["a\\nb\\t"]')
+        json = ['a"bc"']
+        assert_equals(pyjson.stringify(json),
+            '''["a\\"bc\\""]''')
 
-    def test_unicode_chars(self):
-        json = stringify([u"àbcdêfghígklmñopqrstu"])
+        json = ['a\"bc\"']
+        assert_equals(pyjson.stringify(json),
+            '''["a\\\"bc\\\""]''')
 
-        assert_equals(json, '["\\u00e0bcd\\u00eafgh\\u00edgklm\\u00f1opqrstu"]')
+        assert_equals(pyjson.stringify([u"àbcdêfghígklmñopqrstu"]),
+            '["\\u00e0bcd\\u00eafgh\\u00edgklm\\u00f1opqrstu"]')
