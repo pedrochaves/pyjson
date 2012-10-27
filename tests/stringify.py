@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """Tests for the stringify method of the lib"""
 
 from nose.tools import assert_equals, assert_in
@@ -89,3 +90,8 @@ class TestStringify(object):
         json = stringify(["a\nb\t"])
 
         assert_equals(json, '["a\\nb\\t"]')
+
+    def test_unicode_chars(self):
+        json = stringify([u"àbcdêfghígklmñopqrstu"])
+
+        assert_equals(json, '["\\u00e0bcd\\u00eafgh\\u00edgklm\\u00f1opqrstu"]')

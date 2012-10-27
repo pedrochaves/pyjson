@@ -1,7 +1,7 @@
 def parse(jsonstr):
     return Parser().parse(jsonstr)
 
-class _String(object):
+class _StringPiece(object):
     def __init__(self, string):
         self._string = string
         self._index = -1
@@ -30,7 +30,7 @@ class _String(object):
 class Parser(object):
 
     def parse(self, jsonstr):
-        self._str = _String(jsonstr)
+        self._str = _StringPiece(jsonstr)
         self._parsing_boolean = False
         
         return self._parse_json()
