@@ -60,19 +60,19 @@ class Parser(object):
         return response
 
     def _parse_number(self):
-        current = self._str.next().lower()
+        current = self._str.next()
         is_float = False
         is_exponencial = False
-        modifiers = ("-", ".", "e")
+        modifiers = ("-", ".", "e", "E")
         number = ""
 
         while current.isdigit() or current in modifiers:
             is_float = is_float or current == "."
-            is_exponencial = is_exponencial or current == "e"
+            is_exponencial = is_exponencial or current in ("e", "E")
 
             number += current
 
-            current = self._str.next().lower()
+            current = self._str.next()
 
         return float(number) if is_float or is_exponencial else int(number)
 
