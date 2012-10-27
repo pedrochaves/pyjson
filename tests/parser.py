@@ -36,3 +36,8 @@ class TestListParser(object):
         json = parse("[false, true, null]")
 
         assert_equals(json, [False, True, None])
+
+    def test_strings(self):
+        json = parse('["abc", "a"]')
+
+        assert_equals(json, ["abc", "a"])

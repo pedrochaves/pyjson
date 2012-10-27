@@ -43,6 +43,8 @@ class Parser(object):
             return self._parse_list()
         elif char.isdigit() or char == "-":
             return self._parse_number()
+        elif char == '"':
+            return self._parse_string()
         elif char in ("f", "t", "n"):
             return self._parse_booleans()
 
@@ -93,3 +95,12 @@ class Parser(object):
         else:
             raise Exception("Invalid token, %s expected got %s" % (token,
                 has_to_return))
+
+    def _parse_string(self):
+        string = ""
+
+        _ = self._str.next()
+        while self._str.peek() != '"':
+            string += self._str.next()
+
+        return string
