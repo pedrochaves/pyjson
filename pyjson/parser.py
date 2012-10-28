@@ -22,6 +22,11 @@ class _StringPiece(object):
 
             return self._string[self._index]
 
+    def prev(self):
+        if self._index == 0:
+            return self._string[0]
+
+        return self._string[self._index - 1]
 
     def __str__(self):
         return self._string
@@ -99,8 +104,17 @@ class Parser(object):
     def _parse_string(self):
         string = ""
 
-        _ = self._str.next()
-        while self._str.peek() != '"':
+        _ = self._str.next() # Ignoring first quotes
+        while True:
             string += self._str.next()
 
+            if self._str.peek() == '"':
+                string += self._str.next()
+
+                if self._str.peek() in (",", "]", "}"):
+                    string = string[:-1]
+
+                    _ = self._str.prev()
+                    break
+                
         return string
