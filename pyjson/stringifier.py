@@ -1,15 +1,6 @@
-from utils import *
+import utils
 
-
-def stringify(obj):
-    """
-    Returns a string with a valid JSON according to the
-    object passed as argument. This object can be a list,
-    tuple or dictionary.
-    """
-
-    return Stringifier().stringify(obj)
-
+__all__ = ["Stringifier"]
 
 class Stringifier(object):
     """
@@ -24,9 +15,9 @@ class Stringifier(object):
     def stringify(self, obj):
         self._obj = obj
 
-        if is_json_array(obj):
+        if utils.is_json_array(obj):
             self._read_json_array()
-        elif is_dict(obj):
+        elif utils.is_dict(obj):
             self._read_dict()
 
         return "".join(self._tokens)
@@ -71,9 +62,9 @@ class Stringifier(object):
         self._append_token(", ")
 
     def _append_token_by_type(self, value):
-        if is_string(value):
+        if utils.is_string(value):
             self._append_string(value)
-        elif is_number(value):
+        elif utils.is_number(value):
             self._append_number(value)
         elif value is None:
             self._append_null()
@@ -81,13 +72,13 @@ class Stringifier(object):
             self._append_true()
         elif value == False:
             self._append_false()
-        elif is_json_array(value):
+        elif utils.is_json_array(value):
             self._read_json_array(value)
-        elif is_dict(value):
+        elif utils.is_dict(value):
             self._read_dict(value)
 
     def _append_string(self, string):
-        self._append_token('"%s"' % escape(to_unicode(string)))
+        self._append_token('"%s"' % utils.escape(utils.to_unicode(string)))
 
     def _append_number(self, number):
         self._append_token(str(number))

@@ -1,5 +1,4 @@
-def parse(jsonstr):
-    return Parser().parse(jsonstr)
+__all__ = ["Parser"]
 
 class _StringPiece(object):
     def __init__(self, string):
