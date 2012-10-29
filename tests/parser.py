@@ -58,3 +58,13 @@ Long text
 Long text
 Long text
 Long text"""])
+
+    def test_list_within_list(self):
+        stringified = "[1, 2 ,3, [2, 3, 4]]"
+        assert_equals(pyjson.parse(stringified),
+            [1, 2 ,3, [2, 3, 4]])
+
+        stringified = "[[[], [], []], [[], [], []]]"
+        assert_equals(pyjson.parse(stringified),
+            [[[], [], []], [[], [], []]])
+
