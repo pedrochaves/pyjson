@@ -1,6 +1,6 @@
 """Tests for the lib's JSON parser"""
 
-from nose.tools import assert_equals, assert_in
+from nose.tools import assert_equals
 
 import pyjson
 
@@ -16,8 +16,8 @@ class TestListParser(object):
         assert_equals(pyjson.parse("[1, 20, 300]"),
             [1, 20, 300])
 
-        assert_equals(pyjson.parse("[1.5, 20.5, 300.78, 10e1, 20E2]"), 
-            [1.5, 20.5, 300.78, 100.0, 2000.0])
+        assert_equals(pyjson.parse("[1.5, 20.5, 300.78, 10e1, 20.1E2]"),
+            [1.5, 20.5, 300.78, 10e1, 20.1e2])
 
         assert_equals(pyjson.parse("[-1, -2.5, -1.0e1, -5]"),
             [-1, -2.5, -10.0, -5])
@@ -62,9 +62,36 @@ Long text"""])
     def test_list_within_list(self):
         stringified = "[1, 2 ,3, [2, 3, 4]]"
         assert_equals(pyjson.parse(stringified),
-            [1, 2 ,3, [2, 3, 4]])
+            [1, 2, 3, [2, 3, 4]])
 
         stringified = "[[[], [], []], [[], [], []]]"
         assert_equals(pyjson.parse(stringified),
             [[[], [], []], [[], [], []]])
 
+
+class TestDictParser(object):
+
+    def test_empty_dict(self):
+        assert_equals(pyjson.parse("{}"), {})
+
+    def test_number_dict(self):
+        assert_equals(pyjson.parse('{"mykey": 1}'), {"mykey": 1})
+
+    def test_string_dict(self):
+        assert_equals(pyjson.parse('{"mykey": "my string dict"}'),
+            {"mykey": "my string dict"})
+
+    def test_bool_dict(self):
+        stringified = '''{
+        "thisisfalse": false,
+        "thisistrue": true,
+        "thisisnull": null
+        }'''
+
+        expected = {
+            "thisisfalse": False,
+            "thisistrue": True,
+            "thisisnull": None
+        }
+
+        assert_equals(pyjson.parse(stringified), expected)
