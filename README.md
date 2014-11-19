@@ -1,6 +1,7 @@
 pyjson
 ======
 
+Edit
 A simple JSON parser/stringifier in Python made for study purposes. Tries to validate according to [JSONLint](http://jsonlint.com/) rules.
 
 ## Usage and examples
